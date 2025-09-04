@@ -20,6 +20,12 @@ cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
 
 print "Installing starship..."
-curl -sS https://starship.rs/install.sh | sh
+curl -sS https://starship.rs/install.sh | sh -s -- -y
 
-chsh -s $(which fish)
+print "Setting Fish as default shell..."
+if ! grep -q "$(which fish)" /etc/shells; then
+  echo "$(which fish)" | sudo tee -a /etc/shells
+fi
+chsh -s "$(which fish)"
+
+print "Setup complete. Restart your terminal!"
